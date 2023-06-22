@@ -33,6 +33,9 @@ Route::middleware('auth')->group(
     function () {
         Route::get('/', [DashboardController::class, 'index']);
         Route::get('/unit', [UnitController::class, 'index'])->name('unit.index');
+        Route::get('/unit/{id}', [UnitController::class, 'show'])->name('unit.show');
         Route::post('/unit-create', [UnitController::class, 'ajaxCreate'])->name('unit.create');
+        Route::delete('/unit/{id}', [UnitController::class, 'destroy'])->name('unit.destroy');
+        Route::put('/unit/{id}', [UnitController::class, 'update'])->name('unit.update');
     }
 );

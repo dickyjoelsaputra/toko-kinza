@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('alias');
-            $table->integer('quantity');
             $table->timestamps();
         });
     }
