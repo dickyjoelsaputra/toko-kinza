@@ -38,7 +38,7 @@
                             alt="logo"
                             width="80"
                             class="shadow-light rounded-circle mb-5 mt-2">
-                        <h4 class="text-dark font-weight-normal">Welcome to <span class="font-weight-bold">Toko WOOOWO
+                        <h4 class="text-dark font-weight-normal">Welcome to <span class="font-weight-bold">Toko
                                 Kinza</span>
                         </h4>
                         <form method="POST"

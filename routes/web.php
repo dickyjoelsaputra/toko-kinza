@@ -29,6 +29,10 @@ Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->nam
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-Route::get('/', [DashboardController::class, 'index']);
-Route::get('/unit', [UnitController::class, 'index'])->name('unit.index');
-Route::post('/unit-create', [UnitController::class, 'ajaxCreate'])->name('unit.create');
+Route::middleware('auth')->group(
+    function () {
+        Route::get('/', [DashboardController::class, 'index']);
+        Route::get('/unit', [UnitController::class, 'index'])->name('unit.index');
+        Route::post('/unit-create', [UnitController::class, 'ajaxCreate'])->name('unit.create');
+    }
+);
