@@ -15,7 +15,9 @@
         <div class="card-header">
             <h4>Satuan</h4>
             <div class="card-header-action">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#exampleModal">
                     Tambah
                 </button>
             </div>
@@ -44,6 +46,7 @@
                     </tr>
                     @endforeach
                 </table>
+
             </div>
         </div>
     </div>
@@ -139,6 +142,7 @@
                         $('#alias').val('');
                         $('#exampleModal').modal('hide');
                         $('#unit-table').load(location.href + ' #unit-table');
+                        showToast(response.message, 'success');
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
@@ -165,6 +169,7 @@
             success: function(response) {
                 console.log(response);
                 $('#unit-table').load(location.href + ' #unit-table');
+                showToast(response.message, 'danger');
             },
             error: function(xhr) {
                 var errors = xhr.responseJSON.errors;
@@ -224,6 +229,7 @@
                     console.log(response);
                     $('#editModal').modal('hide');
                     $('#unit-table').load(location.href + ' #unit-table');
+                    showToast(response.message , 'primary');
                 },
                 error: function(xhr) {
                 var errors = xhr.responseJSON.errors;

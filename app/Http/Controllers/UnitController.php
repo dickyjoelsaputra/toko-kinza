@@ -10,7 +10,6 @@ class UnitController extends Controller
 {
     public function index()
     {
-        // get unit
         $units = Unit::get();
         return view('unit.index', ['units' => $units]);
     }
@@ -36,8 +35,8 @@ class UnitController extends Controller
             ]);
         }
 
-        $data['name'] = ucwords($data['name']);
-        $data['alias'] = ucwords($data['alias']);
+        $data['name'] = strtoupper($data['name']);
+        $data['alias'] = strtoupper($data['alias']);
 
         $result = Unit::create($data);
         if ($result) {
@@ -84,8 +83,8 @@ class UnitController extends Controller
             ]);
         }
 
-        $data['name'] = ucwords($data['name']);
-        $data['alias'] = ucwords($data['alias']);
+        $data['name'] = strtoupper($data['name']);
+        $data['alias'] = strtoupper($data['alias']);
 
         $unit = Unit::find($id);
         $result = $unit->update($data);

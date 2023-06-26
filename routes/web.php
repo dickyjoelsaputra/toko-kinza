@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\DashboardController;
 
@@ -32,10 +33,19 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middle
 Route::middleware('auth')->group(
     function () {
         Route::get('/', [DashboardController::class, 'index']);
+        // UNIT START
         Route::get('/unit', [UnitController::class, 'index'])->name('unit.index');
         Route::get('/unit/{id}', [UnitController::class, 'show'])->name('unit.show');
         Route::post('/unit-create', [UnitController::class, 'ajaxCreate'])->name('unit.create');
         Route::delete('/unit/{id}', [UnitController::class, 'destroy'])->name('unit.destroy');
         Route::put('/unit/{id}', [UnitController::class, 'update'])->name('unit.update');
+        // UNIT END
+
+        // ITEM START
+        Route::get('/item', [ItemController::class, 'index'])->name('item.index');
+        Route::get('/item-ajax', [ItemController::class, 'ajaxIndex'])->name('item.ajax');
+        Route::get('/item/create-comp', [ItemController::class, 'createComp'])->name('item.create-comp');
+        Route::get('/item/create-phone', [ItemController::class, 'createPhone'])->name('item.create-phone');
+        // ITEM END
     }
 );

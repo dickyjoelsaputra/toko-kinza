@@ -22,15 +22,15 @@
                 <ul class="dropdown-menu">
                     <li class="">
                         <a class="nav-link"
-                            href="">Index</a>
+                            href="{{ route('item.index') }}">Index</a>
                     </li>
                     <li class="">
                         <a class="nav-link"
-                            href="">Tambah (Komputer)</a>
+                            href="{{ route('item.create-comp') }}">Tambah (Komputer)</a>
                     </li>
                     <li class="">
                         <a class="nav-link"
-                            href="">Tambah (HP)</a>
+                            href="{{ route('item.create-phone') }}">Tambah (HP)</a>
                     </li>
                 </ul>
             </li>
