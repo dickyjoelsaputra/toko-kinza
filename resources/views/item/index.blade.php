@@ -3,6 +3,8 @@
 @section('title', 'Index Barang')
 
 @push('style')
+<style>
+</style>
 @endpush
 
 @section('main')
@@ -76,8 +78,9 @@
             row.append($("<td>").text(item.name));
             row.append($("<td>").text(item.code));
             row.append($("<td>").text(item.manual));
+
             var prices = item.prices;
-            var priceTable = $("<table>").addClass("table-bordered table-sm table table-primary");
+            var priceTable = $("<table>");
                 $.each(prices, function(index, price) {
                 var priceRow = $("<tr>");
                     priceRow.append($("<td>").text(price.price.toLocaleString('id-ID')));priceRow.append($("<td>").text(price.unit.name));
@@ -85,7 +88,23 @@
                 });
             row.append($("<td>").html(priceTable));
 
-                        // Menambahkan tombol Edit dan Delete
+        // var prices = item.prices;
+        // var priceTable = $("<table>").addClass("table table-bordered table-sm table-primary");
+        //     var priceTableBody = $("<tbody>");
+
+        //     $.each(prices, function(index, price) {
+        //         var priceRow = $("<tr>");
+        //         priceRow.append($("<td>").text(price.price.toLocaleString('id-ID')));
+        //         priceRow.append($("<td>").text(price.unit.name));
+        //         priceTableBody.append(priceRow);
+        //     });
+
+        //     priceTable.append(priceTableBody);
+        //     var priceTableWrapper = $("<div>").addClass("table-responsive").css("width", "200px").append(priceTable);
+        //     var priceTableContainer = $("<div>").append(priceTableWrapper);
+        //     row.append($("<td>").append(priceTableContainer));
+
+            // Menambahkan tombol Edit dan Delete
             var actionButtons = $("<td>");
             actionButtons.append($("<button>").addClass("btn btn-primary edit-btn mr-1").attr("data-id",item.id).text("Edit"));
             actionButtons.append($("<button>").addClass("btn btn-warning print-btn mr-1").attr("data-id",item.id).text("Print"));
