@@ -16,10 +16,22 @@
             <h4>Barang</h4>
         </div>
         <div class="card-body p-0">
-            <div class="table-responsive">
-                <div class="form-group mt-3 ml-3 mr-3">
-                    <input type="text" class="form-control" id="search" placeholder="Cari barang... (Nama / Kode)">
+            <div class="form-group mt-3 ml-3 mr-3">
+                <div class="row mx-2">
+                    <input class="form-control col-6" type="text" class="form-control" id="search"
+                        placeholder="Cari barang... (Nama / Kode)">
+                    <div class="form-group">
+                        <label class="custom-switch mt-2">
+                            <input type="checkbox" id="manualSwitch"
+                                class="custom-switch-input">
+                            <span class="custom-switch-indicator"></span>
+                            <span class="custom-switch-description">Manual only</span>
+                        </label>
+                    </div>
                 </div>
+            </div>
+            <div class="table-responsive">
+
                 <table class="table-bordered table-md table" id="item-table">
                     <thead>
                         <tr>
@@ -28,7 +40,7 @@
                             <th>Nama</th>
                             <th>Kode</th>
                             <th>Manual</th>
-                            <th>Harga</th>
+                            <th>Harga / Qty / Satuan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -50,8 +62,9 @@
     var currentPage = 1;
     var totalPages = 1;
     var currentSearch = '';
+    var manualOnly = false;
 
-    function fetchItems(page = 1, search = '') {
+    function fetchItems(page = 1, search = '', manual = false) {
     // AJAX REQUEST START
     $.ajax({
     url: "/item-ajax",
@@ -59,6 +72,7 @@
     data: {
     page: page,
     search: search,
+    manual: manual,
     _token: '{{ csrf_token() }}'
     },
     success: function(response) {
@@ -80,31 +94,19 @@
             row.append($("<td>").text(item.manual));
 
             var prices = item.prices;
-            var priceTable = $("<table>");
-                $.each(prices, function(index, price) {
+            var priceTable = $("<table>").css("min-width", "auto");;
+
+            $.each(prices, function(index, price) {
+
                 var priceRow = $("<tr>");
-                    priceRow.append($("<td>").text(price.price.toLocaleString('id-ID')));priceRow.append($("<td>").text(price.unit.name));
+                    var formattedHarga = new Intl.NumberFormat('id-ID').format(price.price);
+                    priceRow.append($("<td>").text(formattedHarga));
+                    priceRow.append($("<td>").text(price.quantity));
+                    priceRow.append($("<td>").text(price.unit.name));
                     priceTable.append(priceRow);
                 });
+            priceTable.append("</table>");
             row.append($("<td>").html(priceTable));
-
-        // var prices = item.prices;
-        // var priceTable = $("<table>").addClass("table table-bordered table-sm table-primary");
-        //     var priceTableBody = $("<tbody>");
-
-        //     $.each(prices, function(index, price) {
-        //         var priceRow = $("<tr>");
-        //         priceRow.append($("<td>").text(price.price.toLocaleString('id-ID')));
-        //         priceRow.append($("<td>").text(price.unit.name));
-        //         priceTableBody.append(priceRow);
-        //     });
-
-        //     priceTable.append(priceTableBody);
-        //     var priceTableWrapper = $("<div>").addClass("table-responsive").css("width", "200px").append(priceTable);
-        //     var priceTableContainer = $("<div>").append(priceTableWrapper);
-        //     row.append($("<td>").append(priceTableContainer));
-
-            // Menambahkan tombol Edit dan Delete
             var actionButtons = $("<td>");
             actionButtons.append($("<button>").addClass("btn btn-primary edit-btn mr-1").attr("data-id",item.id).text("Edit"));
             actionButtons.append($("<button>").addClass("btn btn-warning print-btn mr-1").attr("data-id",item.id).text("Print"));
@@ -115,7 +117,7 @@
             tableBody.append(row);
             });
 
-                                    // Update pagination
+            // Update pagination
             var pagination = $("#pagination");
             pagination.empty();
             var paginationHtml = '';
@@ -151,20 +153,35 @@
         });
     }
 
+    function updateData() {
+        fetchItems(currentPage, currentSearch, manualOnly);
+    }
+
     fetchItems();
 
     $(document).on('click', '#pagination .page-link' , function(e) {
         e.preventDefault();
         var page=$(this).data('page');
-        fetchItems(page, currentSearch);
+        currentPage = page;
+        updateData();
+        // fetchItems(page, currentSearch);
     });
 
     // Search input keyup event
     $(document).on('keyup', '#search' , function() {
         var searchValue=$(this).val();
         currentSearch=searchValue;
-        fetchItems(1, searchValue);
+        currentPage = 1;
+        updateData();
     });
+
+    $(document).on('change', '#manualSwitch', function() {
+        manualOnly = $(this).is(':checked');
+        currentPage = 1;
+        // console.log(manualOnly)
+        updateData();
+    });
+
 });
 </script>
 @endpush
