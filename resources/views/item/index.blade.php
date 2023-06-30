@@ -16,12 +16,12 @@
             <h4>Barang</h4>
         </div>
         <div class="card-body p-0">
-            <div class="form-group mt-3 ml-3 mr-3">
+            <div class="form-group mt-3 mr-3">
                 <div class="row mx-2">
-                    <input class="form-control col-6" type="text" class="form-control" id="search"
+                    <input class="form-control col-12 col-md-6" type="text" class="form-control" id="search"
                         placeholder="Cari barang... (Nama / Kode)">
-                    <div class="form-group">
-                        <label class="custom-switch mt-2">
+                    <div class="col-md-6 col-12">
+                        <label class="custom-switch p-0 mt-md-2 mt-3">
                             <input type="checkbox" id="manualSwitch"
                                 class="custom-switch-input">
                             <span class="custom-switch-indicator"></span>
@@ -180,6 +180,29 @@
         currentPage = 1;
         // console.log(manualOnly)
         updateData();
+    });
+
+    // DELETE
+
+    $(document).on('click', '.delete-btn', function () {
+        var itemId = $(this).attr('data-id');
+
+        $.ajax({
+            url: "/item/" + itemId,
+            type: "DELETE",
+            data: {
+            _token: '{{ csrf_token() }}'
+            },
+        success: function (response) {
+            console.log(response);
+            updateData();
+            showToast(response.message, 'danger');
+        },
+        error: function (respon) {
+            console.log(xhr);
+            showToast('error', 'Terjadi kesalahan saat menghapus item.');
+        }
+        });
     });
 
 });

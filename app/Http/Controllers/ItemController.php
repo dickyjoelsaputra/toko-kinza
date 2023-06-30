@@ -53,6 +53,23 @@ class ItemController extends Controller
         ]);
     }
 
+    public function destroy($id)
+    {
+        $unit = Item::find($id);
+        if ($unit) {
+            $unit->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Unit deleted successfully',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unit failed to delete',
+            ]);
+        }
+    }
+
 
     public function createComp()
     {

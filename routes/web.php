@@ -44,6 +44,7 @@ Route::middleware('auth')->group(
         // ITEM START
         Route::get('/item', [ItemController::class, 'index'])->name('item.index');
         Route::get('/item-ajax', [ItemController::class, 'ajaxIndex'])->name('item.ajax');
+        Route::delete('item/{id}', [ItemController::class, 'destroy'])->name('item.destroy');
         Route::get('/item/create-comp', [ItemController::class, 'createComp'])->name('item.create-comp');
         Route::get('/item/create-phone', [ItemController::class, 'createPhone'])->name('item.create-phone');
         // ITEM END

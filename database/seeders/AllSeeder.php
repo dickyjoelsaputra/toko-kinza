@@ -76,11 +76,21 @@ class AllSeeder extends Seeder
         ]);
 
         // Looping insert items
-        for ($i = 4; $i <= 50; $i++) {
+        for ($i = 4; $i <= 25; $i++) {
             DB::table('items')->insert([
                 'name' => 'ITEM ' . $i,
                 'code' => '312498329883' . $i,
                 'manual' => false,
+                'photo' => 'https://static8.depositphotos.com/1040728/935/i/600/depositphotos_9352722-stock-photo-tool-set.jpg',
+                'created_at' => now(),
+            ]);
+        }
+
+        for ($i = 4; $i <= 25; $i++) {
+            DB::table('items')->insert([
+                'name' => ' ITEM ' . $i + 2,
+                'code' => '31443' . $i,
+                'manual' => true,
                 'photo' => 'https://static8.depositphotos.com/1040728/935/i/600/depositphotos_9352722-stock-photo-tool-set.jpg',
                 'created_at' => now(),
             ]);
@@ -100,7 +110,7 @@ class AllSeeder extends Seeder
             'price' => 50000,
             'quantity' => 1,
             'item_id' => 2,
-            'unit_id' => 1,
+            'unit_id' => 3,
             'created_at' => now(),
         ]);
 
@@ -115,8 +125,8 @@ class AllSeeder extends Seeder
 
         DB::table('prices')->insert([
             'id' => 4,
-            'price' => 12000,
-            'quantity' => 12,
+            'price' => 10000,
+            'quantity' => 11,
             'item_id' => 3,
             'unit_id' => 3,
             'created_at' => now(),
