@@ -224,7 +224,8 @@
         // START AKES CAMERA
         $("#cameraView").hide();
         $("#captureBtn").hide();
-        $('#photoPreview').hide()
+        $('#photoPreview').hide();
+        disableCamera();
         $("#startCameraBtn").click(function() {
             $("#cameraView").show();
             $("#stopCameraBtn").show();
