@@ -114,10 +114,10 @@
                                         <input name="[]price" type="text" class="form-control price"
                                             placeholder="Harga">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-2">
                                         <input name="[]minimal" type="text" class="form-control" placeholder="Minimal">
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <select class="form-control select2" name="unit">
                                             <option value="" selected disabled>Pilih Satuan</option>
                                             @foreach ($units as $unit)
@@ -126,7 +126,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-1">
+                                    <div class="col-2">
                                         <div class="deletePrice bg-danger d-flex align-items-center justify-content-center border rounded"
                                             style="width: 100%; height: 100%; cursor: pointer;">
                                             <i class="fas fa-trash text-white"></i>
