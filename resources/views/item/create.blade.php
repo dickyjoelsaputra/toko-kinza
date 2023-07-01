@@ -231,6 +231,7 @@
             $("#startCameraBtn").hide();
             $("#captureBtn").show();
             // $("#deleteBtn").hide();
+            enableCamera();
         });
 
         $("#stopCameraBtn").click(function() {
@@ -239,7 +240,33 @@
             $("#startCameraBtn").show();
             $("#captureBtn").hide();
             // $("#deleteBtn").hide();
+            disableCamera();
         });
+
+        function enableCamera() {
+            navigator.mediaDevices
+            .getUserMedia({ video: { facingMode: "environment" } })
+            .then(function(stream) {
+                var video = document.getElementById("videoElement");
+                video.autoplay = true;
+                video.srcObject = stream;
+            })
+            .catch(function(error) {
+                console.log("Error accessing camera: " + error.message);
+            });
+        }
+
+        function disableCamera() {
+            var video = document.getElementById("videoElement");
+            if (video.srcObject) {
+                var tracks = video.srcObject.getTracks();
+                tracks.forEach(function(track) {
+                track.stop();
+            });
+            video.srcObject = null;
+            }
+        }
+
         // END AKSES CAMERA
 
 
@@ -402,7 +429,9 @@
                     $('#photoPreview').empty();
                     $('#photoPreview').hide();
                     $('#deleteBtn').hide();
-
+                    // trigger
+                    $('#stopCameraBtn').trigger('click');
+                    $('#priceBtn').trigger('click');
                     $("#code").focus();
                 },
                 error: function(xhr) {
