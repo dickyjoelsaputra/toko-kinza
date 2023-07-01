@@ -196,7 +196,7 @@
 
         // START SCANNER
         function playSuccessSound() {
-            const successSound = new Audio("{{ asset('assets/sound/mixkit-game-notification-wave-alarm-987.wav') }}");
+            const successSound = new Audio("{{ asset('asset/sound/mixkit-game-notification-wave-alarm-987.wav') }}");
             console.log(successSound);
             successSound.play();
         }
@@ -285,15 +285,15 @@
         // FOCUS END
 
         // CAMERA START
-        navigator.mediaDevices.getUserMedia({
-                video: { facingMode: 'environment' }
-            }).then(function(stream) {
-                var video = document.getElementById('videoElement');
-                video.autoplay = true;
-                video.srcObject = stream;
-            }).catch(function(error) {
-            console.log('Error accessing camera: ' + error.message);
-        });
+        // navigator.mediaDevices.getUserMedia({
+        //         video: { facingMode: 'environment' }
+        //     }).then(function(stream) {
+        //         var video = document.getElementById('videoElement');
+        //         video.autoplay = true;
+        //         video.srcObject = stream;
+        //     }).catch(function(error) {
+        //     console.log('Error accessing camera: ' + error.message);
+        // });
 
         $('#captureBtn').click(function() {
             var video = document.getElementById('videoElement');
