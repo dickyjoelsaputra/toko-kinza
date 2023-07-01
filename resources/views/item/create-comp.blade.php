@@ -91,11 +91,12 @@
         <div class="card-header">
             <h4>Tambah Barang - Komputer</h4>
         </div>
-        <div class="card-body p-0 mb-4">
-            {{-- START --}}
-            <form class="mx-3">
+        <div class="mx-3">
+            <div class="card-body p-0 mb-4">
+                {{-- START --}}
                 <div class="row">
                     <div class="col-sm">
+                        <div class="mb-3 d-sm-none" id="reader" width="600px"></div>
                         <div class="form-group">
                             <label>Scan Barcode</label>
                             <input id="code" name="code" type="text" placeholder="kosongkan jika tidak ada barcode"
@@ -110,11 +111,11 @@
                             <div class="form-group">
                                 <label>Harga dan Unit</label>
                                 <div class="form-row">
-                                    <div class="col-md-4 col-9 mb-2">
+                                    <div class="col-md-4 col-8 mb-2">
                                         <input name="[]price" type="text" class="form-control price"
-                                            placeholder="Harga mb-2">
+                                            placeholder="Harga">
                                     </div>
-                                    <div class="col-md-3 col-3 mb-2">
+                                    <div class="col-md-3 col-4 mb-2">
                                         <input name="[]minimal" type="text" class="form-control" placeholder="Minimal">
                                     </div>
                                     <div class="col-md-4 col-9 mb-2">
@@ -142,34 +143,45 @@
                         {{-- Button End --}}
 
                     </div>
-                    <div class="col-sm">
-                        <div class="row">
-                            <div class="col-md-6 text-center">
-                                <h4>Akses Kamera</h3>
-                                    <div id="cameraView" class="camera-container">
-                                        <video id="videoElement"></video>
-                                    </div>
-                                    <div class="d-flex flex-column align-items-center">
-                                        <button type="button" id="captureBtn" class="btn btn-primary mt-3">Ambil
-                                            Foto</button>
-                                    </div>
-                            </div>
-                            <div class="col-md-6 text-center">
-                                <h4>Hasil Jepretan</h4>
-                                <div id="photoPreview" class="photo-container"></div>
+                </div>
+
+            </div>
+            <hr>
+            <div class="card-body">
+                <div class="col-sm">
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <h4>Akses Kamera</h3>
+                                <div id="cameraView" class="camera-container">
+                                    <video id="videoElement"></video>
+                                </div>
                                 <div class="d-flex flex-column align-items-center">
-                                    <button type="button" id="deleteBtn" class="btn btn-danger mt-3 mx-auto"
-                                        style="display: none;">Hapus
+                                    <button type="button" id="startCameraBtn" class="btn btn-primary mt-3">Akses
+                                        Kamera</button>
+                                    <button type="button" id="stopCameraBtn" class="btn btn-danger mt-3"
+                                        style="display: none;">Berhenti</button>
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <button type="button" id="captureBtn" class="btn btn-primary mt-3">Ambil
                                         Foto</button>
                                 </div>
+                        </div>
+                        <div class="col-md-6 mt-3 text-center">
+                            <h4>Hasil Jepretan</h4>
+                            <div id="photoPreview" class="photo-container"></div>
+                            <div class="d-flex flex-column align-items-center">
+                                <button type="button" id="deleteBtn" class="btn btn-danger mt-3 mx-auto"
+                                    style="display: none;">Hapus
+                                    Foto</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr>
-                <div class="d-flex flex-column align-items-center">
-                    <button type="button" id="tambah" class="btn btn-success mt-3">Tambah Barang</button>
-                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-column align-items-center mb-5">
+                <button type="button" id="tambah" class="btn btn-success mt-3">Tambah Barang</button>
+            </div>
             </form>
             {{-- END --}}
         </div>
@@ -178,9 +190,60 @@
 @endsection
 
 @push('scripts')
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
 
+        // START SCANNER
+        function playSuccessSound() {
+            const successSound = new Audio("{{ asset('assets/sound/mixkit-game-notification-wave-alarm-987.wav') }}");
+            console.log(successSound);
+            successSound.play();
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            $("#code").val(decodedText);
+            playSuccessSound();
+        }
+
+        function onScanFailure(error) {
+        // console.warn(`Code scan error = ${error}`);
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", {
+            fps: 10,
+            qrbox: {
+                width: 250,
+                height: 100
+                }
+            },false);
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        // END SCANNER
+
+        // START AKES CAMERA
+        $("#cameraView").hide();
+        $("#captureBtn").hide();
+        $('#photoPreview').hide()
+        $("#startCameraBtn").click(function() {
+            $("#cameraView").show();
+            $("#stopCameraBtn").show();
+            $("#startCameraBtn").hide();
+            $("#captureBtn").show();
+            // $("#deleteBtn").hide();
+        });
+
+        $("#stopCameraBtn").click(function() {
+            $("#cameraView").hide();
+            $("#stopCameraBtn").hide();
+            $("#startCameraBtn").show();
+            $("#captureBtn").hide();
+            // $("#deleteBtn").hide();
+        });
+        // END AKSES CAMERA
+
+
+        // PRICE START
         $(document).on('input', '.price', function() {
             var harga = $(this).val();
             harga = harga.replace(/[^0-9]/g, '');
@@ -228,13 +291,15 @@
             img.src = imgData;
             img.classList.add('img-fluid');
             img.classList.add('myImage');
-
+            $('#photoPreview').show()
             $('#photoPreview').empty().append(img);
             $('#deleteBtn').show();
+
         });
 
         $('#deleteBtn').click(function() {
             $('#photoPreview').empty();
+            $('#photoPreview').hide()
             $('#deleteBtn').hide();
         });
         // CAMERA END
@@ -242,32 +307,31 @@
         // TAMBAH HARGA START
         $('#priceBtn').click(function() {
             var formGroup = $('<div class="form-group"></div>');
-            var formGroupContent = `
-                    <label>Harga dan Unit</label>
-                    <div class="form-row">
-                        <div class="col">
-                            <input name="[]price" type="text" class="form-control price"
-                                placeholder="Harga">
-                        </div>
-                        <div class="col">
-                            <input name="[]minimal" type="text" class="form-control" placeholder="Minimal">
-                        </div>
-                        <div class="col-4">
-                            <select class="form-control select2" name="unit">
-                                <option value="" selected disabled>Pilih Satuan</option>
-                                @foreach ($units as $unit)
-                                <option value="{{ $unit->id }}">{{ $unit->name }} ||
-                                    {{ $unit->alias }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-1">
-                            <div class="deletePrice bg-danger d-flex align-items-center justify-content-center border rounded"
-                                style="width: 100%; height: 100%; cursor: pointer;">
-                                <i class="fas fa-trash text-white"></i>
-                            </div>
-                        </div>
+            var formGroupContent = `<label>Harga dan Unit</label>
+            <div class="form-row">
+                <div class="col-md-4 col-8 mb-2">
+                    <input name="[]price" type="text" class="form-control price"
+                        placeholder="Harga">
+                </div>
+                <div class="col-md-3 col-4 mb-2">
+                    <input name="[]minimal" type="text" class="form-control" placeholder="Minimal">
+                </div>
+                <div class="col-md-4 col-9 mb-2">
+                    <select class="form-control select2" name="unit">
+                        <option value="" selected disabled>Pilih Satuan</option>
+                        @foreach ($units as $unit)
+                        <option value="{{ $unit->id }}">{{ $unit->name }} ||
+                            {{ $unit->alias }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-1 col-3 mb-2">
+                    <div class="deletePrice bg-danger d-flex align-items-center justify-content-center border rounded"
+                        style="width: 100%; height: 100%; cursor: pointer;">
+                        <i class="fas fa-trash text-white"></i>
                     </div>
+                </div>
+            </div>
                 `;
             formGroup.append(formGroupContent);
             $('.harga-wrapper').append(formGroup);
@@ -336,6 +400,7 @@
                     $('#name').val('');
                     $('.harga-wrapper').empty();
                     $('#photoPreview').empty();
+                    $('#photoPreview').hide();
                     $('#deleteBtn').hide();
 
                     $("#code").focus();
