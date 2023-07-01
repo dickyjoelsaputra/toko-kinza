@@ -110,14 +110,14 @@
                             <div class="form-group">
                                 <label>Harga dan Unit</label>
                                 <div class="form-row">
-                                    <div class="col">
+                                    <div class="col-md-4 col-9 mb-2">
                                         <input name="[]price" type="text" class="form-control price"
-                                            placeholder="Harga">
+                                            placeholder="Harga mb-2">
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-md-3 col-3 mb-2">
                                         <input name="[]minimal" type="text" class="form-control" placeholder="Minimal">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-md-4 col-9 mb-2">
                                         <select class="form-control select2" name="unit">
                                             <option value="" selected disabled>Pilih Satuan</option>
                                             @foreach ($units as $unit)
@@ -126,7 +126,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-md-1 col-3 mb-2">
                                         <div class="deletePrice bg-danger d-flex align-items-center justify-content-center border rounded"
                                             style="width: 100%; height: 100%; cursor: pointer;">
                                             <i class="fas fa-trash text-white"></i>
