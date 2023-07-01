@@ -26,11 +26,7 @@
                     </li>
                     <li class="">
                         <a class="nav-link"
-                            href="{{ route('item.create-comp') }}">Tambah (Komputer)</a>
-                    </li>
-                    <li class="">
-                        <a class="nav-link"
-                            href="{{ route('item.create-phone') }}">Tambah (HP)</a>
+                            href="{{ route('item.create') }}">Tambah Barang</a>
                     </li>
                 </ul>
             </li>

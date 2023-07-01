@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Barang Baru - Komputer')
+@section('title', 'Tambah Barang Baru')
 
 @push('style')
 <style>
@@ -390,7 +390,7 @@
             });
 
             $.ajax({
-                url: '/item/create-comp-ajax',
+                url: '/item/create-ajax',
                 type: 'POST',
                 data: requestData,
                 success: function(response) {

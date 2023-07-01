@@ -77,13 +77,13 @@ class ItemController extends Controller
     }
 
 
-    public function createComp()
+    public function create()
     {
         $units = Unit::get();
-        return view('item.create-comp', ['units' => $units]);
+        return view('item.create', ['units' => $units]);
     }
 
-    public function createCompAjax(Request $request)
+    public function createAjax(Request $request)
     {
         $rules = [
             'code' => 'nullable',
