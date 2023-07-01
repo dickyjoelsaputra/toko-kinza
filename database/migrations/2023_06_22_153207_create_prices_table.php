@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
             $table->integer('price')->nullable();
-            $table->integer('quantity')->nullable();
+            $table->integer('minimal')->nullable();
             $table->unsignedBigInteger('item_id')->nullable();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
             $table->unsignedBigInteger('unit_id')->nullable();

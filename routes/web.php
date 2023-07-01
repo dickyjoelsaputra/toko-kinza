@@ -46,6 +46,7 @@ Route::middleware('auth')->group(
         Route::get('/item-ajax', [ItemController::class, 'ajaxIndex'])->name('item.ajax');
         Route::delete('item/{id}', [ItemController::class, 'destroy'])->name('item.destroy');
         Route::get('/item/create-comp', [ItemController::class, 'createComp'])->name('item.create-comp');
+        Route::post('/item/create-comp-ajax', [ItemController::class, 'createCompAjax'])->name('item.create-comp-ajax');
         Route::get('/item/create-phone', [ItemController::class, 'createPhone'])->name('item.create-phone');
         // ITEM END
     }

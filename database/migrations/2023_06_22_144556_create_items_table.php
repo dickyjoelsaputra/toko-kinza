@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->boolean('manual');
-            $table->string('photo')->nullable();
+            $table->string('photo');
+            $table->boolean('is_photo');
             $table->timestamps();
         });
     }

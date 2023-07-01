@@ -40,7 +40,7 @@
                             <th>Nama</th>
                             <th>Kode</th>
                             <th>Manual</th>
-                            <th>Harga / Qty / Satuan</th>
+                            <th>Harga / Minimal / Satuan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -87,8 +87,11 @@
     $.each(items, function(index, item) {
         var row = $("<tr>");
 
-        row.append($("<td>").text((currentPage - 1) * 10 + index + 1));
-            row.append($("<td>").html('<img width="100" src="' + item.photo + '" alt="..." class="img-thumbnail">'));
+            row.append($("<td>").text((currentPage - 1) * 10 + index + 1));
+            // row.append($("<td>").text(item.id));
+            // row.append($("<td>").html('<img width="100" src="{{ asset("' + item.photo + '") }}" alt="..." class="img-thumbnail">'));
+            var flagsUrl = '{{ asset("") }}' + "storage/" + item.photo;
+            row.append($("<td>").html('<img width="100" src="' + flagsUrl + '" alt="..." class="img-thumbnail">'));
             row.append($("<td>").text(item.name));
             row.append($("<td>").text(item.code));
             row.append($("<td>").text(item.manual));
@@ -101,7 +104,7 @@
                 var priceRow = $("<tr>");
                     var formattedHarga = new Intl.NumberFormat('id-ID').format(price.price);
                     priceRow.append($("<td>").text(formattedHarga));
-                    priceRow.append($("<td>").text(price.quantity));
+                    priceRow.append($("<td>").text(price.minimal));
                     priceRow.append($("<td>").text(price.unit.name));
                     priceTable.append(priceRow);
                 });
@@ -195,10 +198,10 @@
             },
         success: function (response) {
             console.log(response);
-            updateData();
             showToast(response.message, 'danger');
+            updateData();
         },
-        error: function (respon) {
+        error: function (xhr) {
             console.log(xhr);
             showToast('error', 'Terjadi kesalahan saat menghapus item.');
         }

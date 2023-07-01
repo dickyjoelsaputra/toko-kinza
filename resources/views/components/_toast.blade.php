@@ -52,7 +52,7 @@
         var toastMessage = $('#toast-message');
 
         toastElement.removeClass('bg-success bg-danger bg-warning').addClass('bg-' + type);
-        toastMessage.text(message);
+        toastMessage.html(message);
 
         var toast = new bootstrap.Toast(toastElement[0]);
         toast.show();
@@ -63,7 +63,7 @@
 <style>
     .toast {
         position: fixed;
-        top: 80%;
+        top: 10%;
         right: 30px;
         z-index: 999;
         max-width: 300px;

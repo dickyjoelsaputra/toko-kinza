@@ -14,15 +14,15 @@
     <div class="card">
         <div class="card-header">
             <h4>Satuan</h4>
-            <div class="card-header-action">
-                <button type="button" class="btn btn-success"
-                    data-toggle="modal"
-                    data-target="#exampleModal">
-                    Tambah
-                </button>
-            </div>
+
         </div>
         <div class="card-body p-0">
+            <button type="button" class="btn btn-success ml-4 mb-1"
+                data-toggle="modal"
+                data-target="#exampleModal">
+                Tambah
+            </button>
+
             <div class="table-responsive">
                 <table class="table-striped table-md table" id="unit-table">
                     <tr>
