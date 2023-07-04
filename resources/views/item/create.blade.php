@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Barang Baru')
+@section('title', 'Tambah Barang')
 
 @push('style')
 <style>
@@ -89,7 +89,7 @@
 <div class="main-content">
     <div class="card">
         <div class="card-header">
-            <h4>Tambah Barang - Komputer</h4>
+            <h4>Tambah Barang</h4>
         </div>
         <div class="mx-3">
             <div class="card-body p-0 mb-4">

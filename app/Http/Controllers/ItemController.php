@@ -159,7 +159,6 @@ class ItemController extends Controller
 
         foreach ($request->items as $itemData) {
             $item->prices()->create([
-                'price' => $itemData['price'],
                 'price' => intval(str_replace(".", "", $itemData['price'],)),
                 'minimal' => $itemData['minimal'],
                 'unit_id' => $itemData['unit'],

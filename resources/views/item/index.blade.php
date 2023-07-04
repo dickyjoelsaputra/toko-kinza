@@ -40,6 +40,7 @@
                             <th>Nama</th>
                             <th>Kode</th>
                             <th>Manual</th>
+                            <th>Harga Modal</th>
                             <th>Harga / Minimal / Satuan</th>
                             <th>Aksi</th>
                         </tr>
@@ -95,6 +96,7 @@
             row.append($("<td>").text(item.name));
             row.append($("<td>").text(item.code));
             row.append($("<td>").text(item.manual));
+            row.append($("<td>").text(new Intl.NumberFormat('id-ID').format(item.capital)));
 
             var prices = item.prices;
             var priceTable = $("<table>").css("min-width", "auto");;

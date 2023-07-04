@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CashierController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +35,10 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middle
 
 Route::middleware('auth')->group(
     function () {
+        // DASHBOARD START
         Route::get('/', [DashboardController::class, 'index']);
+        // DASHBOARD END
+
         // UNIT START
         Route::get('/unit', [UnitController::class, 'index'])->name('unit.index');
         Route::get('/unit/{id}', [UnitController::class, 'show'])->name('unit.show');
@@ -48,5 +54,23 @@ Route::middleware('auth')->group(
         Route::get('/item/create', [ItemController::class, 'create'])->name('item.create');
         Route::post('/item/create-ajax', [ItemController::class, 'createAjax'])->name('item.create-ajax');
         // ITEM END
+
+        // CASHIER START
+        Route::get('/cashier', [CashierController::class, 'index'])->name('cashier.index');
+        Route::post('/cashier-scan', [CashierController::class, 'cashierScan'])->name('cashier.scan');
+        Route::post('/cashier/search', [CashierController::class, 'search'])->name('cashier.search');
+        Route::post('/cashier/getItem', [CashierController::class, 'getItem'])->name('cashier.getItem');
+        // CASHIER END
+
+        // TRANSACTION START
+        Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index');
+        Route::post('/transaction/ajaxStore', [TransactionController::class, 'ajaxStore'])->name('transaction.ajaxStore');
+        // TRANSACTION END
+
+        // USER START
+        Route::get('/user', [UserController::class, 'index'])->name('user.index');
+
+        // USER END
+
     }
 );

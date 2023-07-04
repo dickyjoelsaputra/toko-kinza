@@ -13,7 +13,7 @@
             </li>
             <li class="">
                 <a class="nav-link"
-                    href="/"><i class="fa fa-shopping-bag"></i> <span>Kasir</span></a>
+                    href="{{route('cashier.index')}}"><i class="fa fa-shopping-bag"></i> <span>Kasir</span></a>
             </li>
             <li class="nav-item dropdown">
                 <a href="#"
@@ -36,11 +36,11 @@
             </li>
             <li class="">
                 <a class="nav-link"
-                    href="/"><i class="far fa-usd"></i> <span>Transaksi</span></a>
+                    href="{{ route('transaction.index') }}"><i class="far fa-usd"></i> <span>Transaksi</span></a>
             </li>
             <li class="">
                 <a class="nav-link"
-                    href="/"><i class="far fa-user"></i> <span>Users</span></a>
+                    href="{{ route('user.index') }}"><i class="far fa-user"></i> <span>Users</span></a>
             </li>
         </ul>
     </aside>
