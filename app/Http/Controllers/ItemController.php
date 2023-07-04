@@ -155,7 +155,7 @@ class ItemController extends Controller
         $item = Item::create([
             'code' => $request->code,
             'name' => strtoupper($request->name),
-            'capital' => $request->capital,
+            'capital' => intval(str_replace(".", "", $request->capital),),
             'photo' => $request->image,
             'manual' => $request->manual,
             'is_photo' => $request->is_photo,

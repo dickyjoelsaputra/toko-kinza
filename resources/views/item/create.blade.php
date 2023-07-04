@@ -109,7 +109,7 @@
 
                         <div class="form-group">
                             <label>Harga Modal</label>
-                            <input id="capital" name="capital" type="text" class="form-control">
+                            <input id="capital" name="capital" type="text" class="form-control capital">
                         </div>
 
                         <div class="harga-wrapper">
@@ -284,6 +284,15 @@
             $(this).val(formattedHarga);
         });
         // PRICE END
+
+        // CAPITAL START
+        $(document).on('input', '.capital', function() {
+            var harga = $(this).val();
+            harga = harga.replace(/[^0-9]/g, '');
+            var formattedHarga = new Intl.NumberFormat('id-ID').format(harga);
+            $(this).val(formattedHarga);
+        });
+        // CAPITAL END
 
         // FOCUS START
         $("#code").focus();
