@@ -107,9 +107,14 @@
                             <input id="name" name="name" type="text" class="form-control">
                         </div>
 
+                        <div class="form-group">
+                            <label>Harga Modal</label>
+                            <input id="capital" name="capital" type="text" class="form-control">
+                        </div>
+
                         <div class="harga-wrapper">
                             <div class="form-group">
-                                <label>Harga dan Unit</label>
+                                <label>Harga Jual dan Unit</label>
                                 <div class="form-row">
                                     <div class="col-md-4 col-8 mb-2">
                                         <input name="[]price" type="text" class="form-control price"
@@ -138,7 +143,7 @@
                         </div>
                         {{-- Button Start --}}
                         <div class="d-flex flex-column align-items-center">
-                            <button type="button" id="priceBtn" class="btn btn-primary mt-3">Tambah Harga</button>
+                            <button type="button" id="priceBtn" class="btn btn-primary mt-3">Tambah Harga Jual</button>
                         </div>
                         {{-- Button End --}}
 
@@ -377,6 +382,7 @@
         $('#tambah').click(function() {
             var code = $('#code').val();
             var name = $('#name').val();
+            var capital = $('#capital').val();
             var dataPrice = $('.price');
             var priceInputs = $('input[name="[]price"]');
             var minimalInputs = $('input[name="[]minimal"]');
@@ -406,6 +412,7 @@
             var requestData = {
                 code: code,
                 name: name,
+                capital: capital,
                 items: data,
                 image: imageBase64
             };

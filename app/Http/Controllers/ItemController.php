@@ -88,14 +88,17 @@ class ItemController extends Controller
         $rules = [
             'code' => 'nullable',
             'name' => 'required',
+            'capital' => 'required',
             'items.*.price' => 'required',
             'items.*.minimal' => 'required',
             'items.*.unit' => 'required',
             'image' => 'nullable',
+
         ];
 
         $messages = [
             'name.required' => 'Nama diperlukan.',
+            'name.required' => 'Harga Modal diperlukan.',
             'items.*.price.required' => 'Harga pada barang diperlukan.',
             'items.*.minimal.required' => 'Jumlah minimal pada barang diperlukan.',
             'items.*.unit.required' => 'Satuan pada barang diperlukan.',
@@ -152,6 +155,7 @@ class ItemController extends Controller
         $item = Item::create([
             'code' => $request->code,
             'name' => strtoupper($request->name),
+            'capital' => $request->capital,
             'photo' => $request->image,
             'manual' => $request->manual,
             'is_photo' => $request->is_photo,
