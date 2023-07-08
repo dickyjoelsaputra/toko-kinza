@@ -428,13 +428,10 @@
                 printWindow.document.write('<pre>' + struct + '</pre>');
                 printWindow.document.write('<hr>');
                 printWindow.document.write('</body></html>');
+
                 printWindow.document.close();
                 printWindow.print();
-                printWindow.onload = function() {
-                    printWindow.onafterprint = function() {
-                        printWindow.close(); // Tutup jendela cetak setelah mencetak
-                    };
-                };
+                printWindow.close();
             }
 
             $('#proses').on('click', function() {

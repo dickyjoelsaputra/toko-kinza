@@ -29,6 +29,7 @@ use App\Http\Controllers\TransactionController;
 //     User::create($data);
 // });
 
+
 Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(
     function () {
         // DASHBOARD START
         Route::get('/', [DashboardController::class, 'index']);
+        Route::get('/dashboard-chart', [DashboardController::class, 'ajaxChart'])->name('dashboard-ajaxchart');
         // DASHBOARD END
 
         // UNIT START
@@ -53,6 +55,8 @@ Route::middleware('auth')->group(
         Route::delete('item/{id}', [ItemController::class, 'destroy'])->name('item.destroy');
         Route::get('/item/create', [ItemController::class, 'create'])->name('item.create');
         Route::post('/item/create-ajax', [ItemController::class, 'createAjax'])->name('item.create-ajax');
+        Route::get('/item/{id}', [ItemController::class, 'edit'])->name('item.edit');
+        Route::put('/item/{id}', [ItemController::class, 'update'])->name('item.update');
         // ITEM END
 
         // CASHIER START

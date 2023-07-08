@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 class ItemController extends Controller
 {
@@ -76,7 +80,6 @@ class ItemController extends Controller
         }
     }
 
-
     public function create()
     {
         $units = Unit::get();
@@ -93,7 +96,6 @@ class ItemController extends Controller
             'items.*.minimal' => 'required',
             'items.*.unit' => 'required',
             'image' => 'nullable',
-
         ];
 
         $messages = [
@@ -129,7 +131,7 @@ class ItemController extends Controller
             $request->manual = true;
         }
 
-        $request->nama = strtoupper($request->nama);
+        // $request->nama = strtoupper($request->nama);
 
         if ($request->image != null) {
             $base64Image = $request->image;
@@ -175,8 +177,126 @@ class ItemController extends Controller
         ]);
     }
 
-    public function createPhone()
+    public function edit($id)
     {
-        return view('item.create-phone');
+        $items = Item::with('prices.unit')->findOrFail($id);
+        $units = Unit::get();
+        return view('item.edit', ['items' => $items, 'units' => $units]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        // return dd($request->all());
+
+        $rules = [
+            'code' => 'nullable',
+            'name' => 'required',
+            'capital' => 'required',
+            'items.*.price' => 'required',
+            'items.*.minimal' => 'required',
+            'items.*.unit' => 'required',
+            'image' => 'nullable',
+        ];
+
+        $messages = [
+            'name.required' => 'Nama diperlukan.',
+            'name.required' => 'Harga Modal diperlukan.',
+            'items.*.price.required' => 'Harga pada barang diperlukan.',
+            'items.*.minimal.required' => 'Jumlah minimal pada barang diperlukan.',
+            'items.*.unit.required' => 'Satuan pada barang diperlukan.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $errorMessages = $validator->errors()->all();
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $errorMessages,
+            ], 400);
+        }
+
+        $item = Item::findOrFail($id);
+        if ($item->photo == $request->imageName) {
+            $request->image = $item->photo;
+            $request->is_photo = $item->is_photo;
+        } else {
+            if ($request->image != null) {
+                if ($item->is_photo) {
+                    if (Storage::exists($item->photo)) {
+                        Storage::delete($item->photo);
+                    }
+                };
+                // if (Storage::exists($item->image)) {
+                //     Storage::delete($item->image);
+                // }
+
+                $base64Image = $request->image;
+                $imageName = Str::random(40) . '.png';
+                $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Image));
+
+                $imagePath = 'barang/' . $imageName;
+                $image = Image::make($imageData);
+
+                $image->resize(150, 150);
+
+                $compressedImageData = $image->encode('png', 50);
+
+                Storage::disk('public')->put($imagePath, $compressedImageData);
+
+                $request->image = $imagePath;
+                $request->is_photo = true;
+            } else {
+                if ($item->is_photo) {
+                    if (Storage::exists($item->photo)) {
+                        Storage::delete($item->photo);
+                    }
+                };
+                $request->image = 'default/default.png';
+                $request->is_photo = false;
+            }
+        }
+
+        $request->manual = false;
+        if ($request->code == $item->code) {
+            $request->code = $item->code;
+            $request->manual = $item->manual;
+        } else {
+            if ($request->code == null) {
+                $request->code = str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+                $request->manual = true;
+            } {
+                $request->code = $request->code;
+                $request->manual = false;
+            }
+        }
+
+        $item->update([
+            'code' => $request->code,
+            'manual' => $request->manual,
+            'name' => strtoupper($request->name),
+            'capital' => intval(str_replace(
+                ".",
+                "",
+                $request->capital
+            ),),
+            'photo' => $request->image,
+            'is_photo' => $request->is_photo,
+        ]);
+
+        $item->prices()->delete();
+        foreach ($request->items as $itemData) {
+            $item->prices()->create([
+                'price' => intval(str_replace(".", "", $itemData['price'],)),
+                'minimal' => $itemData['minimal'],
+                'unit_id' => $itemData['unit'],
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Item update successfully',
+        ]);
     }
 }

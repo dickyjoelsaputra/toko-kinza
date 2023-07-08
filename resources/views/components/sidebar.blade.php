@@ -1,10 +1,10 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Toko Kinza</a>
+            <a href="index.html">Toko An-Nisa</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">Tkz</a>
+            <a href="index.html">Tan</a>
         </div>
         <ul class="sidebar-menu">
             <li class="">
