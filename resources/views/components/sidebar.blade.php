@@ -1,15 +1,15 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{route('dashoard.index')}}">Toko An-Nisa</a>
+            <a href="{{route('dashboard.index')}}">Toko An-Nisa</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{route('dashoard.index')}}">Tan</a>
+            <a href="{{route('dashboard.index')}}">Tan</a>
         </div>
         <ul class="sidebar-menu">
             <li class="">
                 <a class="nav-link"
-                    href="{{route('dashoard.index')}}"><i class="fa fa-tachometer"></i><span>Dashboard</span></a>
+                    href="{{route('dashboard.index')}}"><i class="fa fa-tachometer"></i><span>Dashboard</span></a>
             </li>
             <li class="">
                 <a class="nav-link"
