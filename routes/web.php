@@ -38,7 +38,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middle
 Route::middleware('auth')->group(
     function () {
         // DASHBOARD START
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard-ajaxchart');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
         Route::get('/dashboard-chart', [DashboardController::class, 'ajaxChart'])->name('dashboard-ajaxchart');
         // DASHBOARD END
 
