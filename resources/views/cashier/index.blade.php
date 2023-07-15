@@ -435,6 +435,8 @@
                 printWindow.document.write('<hr>');
                 printWindow.document.write('<pre>' + struct + '</pre>');
                 printWindow.document.write('<hr>');
+                printWindow.document.write('<h5 style="text-align: center; margin:2;">Terimakasih</h5>');
+                printWindow.document.write('<hr>');
                 printWindow.document.write('</body></html>');
 
                 printWindow.document.close();

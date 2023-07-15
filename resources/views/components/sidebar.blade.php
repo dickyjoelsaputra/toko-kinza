@@ -1,15 +1,15 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Toko An-Nisa</a>
+            <a href="{{route('dashoard.index')}}">Toko An-Nisa</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">Tan</a>
+            <a href="{{route('dashoard.index')}}">Tan</a>
         </div>
         <ul class="sidebar-menu">
             <li class="">
                 <a class="nav-link"
-                    href="/"><i class="fa fa-tachometer"></i><span>Dashboard</span></a>
+                    href="{{route('dashoard.index')}}"><i class="fa fa-tachometer"></i><span>Dashboard</span></a>
             </li>
             <li class="">
                 <a class="nav-link"
@@ -42,10 +42,10 @@
                 <a class="nav-link"
                     href="{{ route('transaction.index') }}"><i class="far fa-usd"></i> <span>Transaksi</span></a>
             </li>
-            <li class="">
+            {{-- <li class="">
                 <a class="nav-link"
                     href="{{ route('user.index') }}"><i class="far fa-user"></i> <span>Users</span></a>
-            </li>
+            </li> --}}
         </ul>
     </aside>
 </div>
