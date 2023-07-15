@@ -127,6 +127,13 @@
             var dataArray = [];
             var formatter = new Intl.NumberFormat('id-ID');
 
+            $(document).on('input', '#costumermoneyinput', function() {
+                var harga = $(this).val();
+                harga = harga.replace(/[^0-9]/g, '');
+                var formattedHarga = new Intl.NumberFormat('id-ID').format(harga);
+                $(this).val(formattedHarga);
+            });
+
             function newRow(data) {
                 var maxPrice = getMaxPrice(data.prices);
 
@@ -134,7 +141,7 @@
                 <td>${data.id}</td>
                 <td><img class="img-thumbnail" src="storage/${data.photo}" alt="" style="width: 100px;"></td>
                 <td>${data.code}</td>
-                <td>${data.name}</td>
+                <td>[${data.category.name}] ${data.name}</td>
                 <td>
                     <select class="custom-select">
                         ${data.prices.map(price => `<option value="${price.price}" ${price.price===maxPrice ? 'selected' : '' }>${price.unit.alias} || ${price.minimal}</option>`).join('')}
@@ -281,7 +288,7 @@
                         if (results.length > 0) {
                             results.forEach(function(result) {
                                 var li = $('<li class="list-group-item"></li>')
-                                    .text(result.name + ' - ' + result.code)
+                                    .text('[' + result.category.name +'] ' + result.name + ' - ' + result.code)
                                     .data('itemId', result.id)
                                     .appendTo('.search-results');
 
@@ -360,7 +367,8 @@
             });
 
             function printReceipt() {
-                var costumerMoney = $('#costumermoneyinput').val();
+                // var costumerMoney = $('#costumermoneyinput').val();
+                var costumerMoney = parseInt($('#costumermoneyinput').val().replace(/\D/g, ''));
                 var changeMoney = $('#changemoney').text();
 
                 if (costumerMoney === '') {
@@ -436,7 +444,7 @@
 
             $('#proses').on('click', function() {
                 var total = $('.total').text();
-                var costumerMoney = $('#costumermoneyinput').val();
+                var costumerMoney = parseInt($('#costumermoneyinput').val().replace(/\D/g, ''));
                 var changeMoney = $('#changemoney').text();
 
                 if (costumerMoney === '') {
@@ -464,7 +472,7 @@
                         subtotal: subtotal
                     };
 
-                allCarts.push(carts);
+                    allCarts.push(carts);
                 });
 
                 // ajax request
@@ -492,7 +500,7 @@
                     }
                 });
 
-                console.log(total , costumerMoney , changeMoney , allCarts);
+                console.log(total, costumerMoney, changeMoney, allCarts);
 
             });
             // END PRINTER

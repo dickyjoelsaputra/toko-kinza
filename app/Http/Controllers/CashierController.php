@@ -21,7 +21,7 @@ class CashierController extends Controller
             ->where(function ($query) use ($scan) {
                 $query->where('name', 'like', "$scan%")
                     ->orWhere('code', 'like', "$scan%");
-            })->with(['prices.unit'])
+            })->with('prices.unit', 'category')
             ->first();
 
         if (!$item) {
@@ -41,8 +41,31 @@ class CashierController extends Controller
         $dataArray = $request->input('dataarray') ?? [];
 
         $results = Item::whereNotIn('id', $dataArray)
-            ->where('name', 'like', "%$searchInput%")
-            ->orWhere('code', 'like', "%$searchInput%")
+            // ->where('name', 'like', "%$searchInput%")
+            // ->orWhere('code', 'like', "%$searchInput%")
+            ->where(function ($query) use ($searchInput) {
+                $query->where('name', 'like', "%$searchInput%")
+                    ->orWhere('code', 'like', "%$searchInput%")
+                    ->orWhereHas('category', function ($query) use ($searchInput) {
+                        $query->where('name', 'like', "%$searchInput%");
+                    });
+            })
+            // ->where(function ($query) use ($searchInput) {
+            //     $query->where('name', 'like', "%$searchInput%")
+            //         ->orWhereHas('category', function ($query) use ($searchInput) {
+            //             $query->where('name', 'like', "%$searchInput%");
+            //         });
+            // })
+            // ->where(function ($query) use ($searchInput) {
+            //     $query->where(function ($query) use ($searchInput) {
+            //         $query->where('name', 'like', "%$searchInput%")
+            //             ->orWhere('code', 'like', "%$searchInput%");
+            //     })
+            //         ->orWhereHas('category', function ($query) use ($searchInput) {
+            //             $query->where('name', 'like', "%$searchInput%");
+            //         });
+            // })
+            ->with('category')
             ->get();
 
         return response()->json(['results' => $results]);
@@ -51,7 +74,7 @@ class CashierController extends Controller
     public function getItem(Request $request)
     {
         $itemId = $request->input('itemId');
-        $item = Item::with(['prices.unit'])->find($itemId);
+        $item = Item::with('prices.unit', 'category')->find($itemId);
         return response()->json(['results' => $item]);
     }
 }

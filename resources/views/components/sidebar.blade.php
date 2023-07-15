@@ -32,6 +32,10 @@
             </li>
             <li class="">
                 <a class="nav-link"
+                    href="{{ route('category.index') }}"><i class="far fa-edit"></i> <span>Ketegori</span></a>
+            </li>
+            <li class="">
+                <a class="nav-link"
                     href="{{ route('unit.index') }}"><i class="far fa-clone"></i> <span>Satuan</span></a>
             </li>
             <li class="">

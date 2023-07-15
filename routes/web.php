@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CashierController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
 
@@ -48,6 +49,24 @@ Route::middleware('auth')->group(
         Route::delete('/unit/{id}', [UnitController::class, 'destroy'])->name('unit.destroy');
         Route::put('/unit/{id}', [UnitController::class, 'update'])->name('unit.update');
         // UNIT END
+
+        // CATEGORY START
+        Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+        Route::get('/category/{id}', [CategoryController::class, 'show'])->name('category.show');
+        Route::post(
+            '/category-create',
+            [
+                CategoryController::class, 'ajaxCreate'
+            ]
+        )->name('category.create');
+        Route::delete(
+            '/category/{id}',
+            [
+                CategoryController::class, 'destroy'
+            ]
+        )->name('category.destroy');
+        Route::put('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
+        // CATEGORY END
 
         // ITEM START
         Route::get('/item', [ItemController::class, 'index'])->name('item.index');

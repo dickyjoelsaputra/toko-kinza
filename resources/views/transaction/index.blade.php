@@ -54,10 +54,10 @@
                             <tr data-widget="expandable-table" aria-expanded="false">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $transaksi->created_at }}</td>
-                                <td>{{ $transaksi->total }}</td>
-                                <td>{{ $transaksi->pay }}</td>
-                                <td>{{ $transaksi->change }}</td>
-                                <td>{{ $transaksi->net_profit }}</td>
+                                <td class="money">{{ $transaksi->total }}</td>
+                                <td class="money">{{ $transaksi->pay }}</td>
+                                <td class="money">{{ $transaksi->change }}</td>
+                                <td class="money">{{ $transaksi->net_profit }}</td>
                                 <td>{{ $transaksi->user->name }}</td>
                             </tr>
                             <tr class="expandable-body d-none">
@@ -76,10 +76,10 @@
                                             @foreach ($transaksi->carts as $keranjang)
                                                 <tr>
                                                     <td>{{ $keranjang->item_name }}</td>
-                                                    <td>{{ $keranjang->capital }}</td>
-                                                    <td>{{ $keranjang->price }}</td>
+                                                    <td class="money">{{ $keranjang->capital }}</td>
+                                                    <td class="money">{{ $keranjang->price }}</td>
                                                     <td>{{ $keranjang->quantity }}</td>
-                                                    <td>{{ $keranjang->subtotal }}</td>
+                                                    <td class="money">{{ $keranjang->subtotal }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -98,6 +98,24 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+
+            var today = new Date();
+            var options = {
+                timeZone: 'Asia/Jakarta',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            };
+            var formattedDate = today.toLocaleString('id-ID', options).substr(0, 10);
+            $('#date').val(formattedDate);
+
+            var formatter = new Intl.NumberFormat('id-ID');
+            $('.money').each(function() {
+                var value = parseFloat($(this).text());
+                $(this).text(formatter.format(value));
+            });
+
+
             $('[data-widget="expandable-table"]').click(function() {
                 // Mengubah status aria-expanded saat diklik
                 $(this).attr('aria-expanded', function(index, attr) {

@@ -37,6 +37,7 @@
                                 <th>No</th>
                                 <th>Gambar</th>
                                 <th>Nama</th>
+                                {{-- <th>Kategori</th> --}}
                                 <th>Kode</th>
                                 <th>Manual</th>
                                 <th>Harga Modal</th>
@@ -98,10 +99,6 @@
                 printWindow.close();
             });
 
-
-
-
-
             $(document).on('click', '.edit-btn', function() {
                 var itemId = $(this).attr('data-id');
                 var editUrl = "/item/" + itemId;
@@ -138,7 +135,8 @@
                             var flagsUrl = '{{ asset('') }}' + "storage/" + item.photo;
                             row.append($("<td>").html('<img width="100" src="' + flagsUrl +
                                 '" alt="..." class="img-thumbnail">'));
-                            row.append($("<td>").text(item.name));
+                            row.append($("<td>").text("[" + item.category.name + "] " +item.name));
+                            // row.append($("<td>").text(item.category.name));
                             row.append($("<td>").text(item.code));
                             row.append($("<td>").text(item.manual));
                             row.append($("<td>").text(new Intl.NumberFormat('id-ID').format(item

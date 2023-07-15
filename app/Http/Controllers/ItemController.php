@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Models\Item;
 use App\Models\Unit;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Picqer\Barcode\BarcodeGeneratorPNG;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use Illuminate\Support\Facades\Validator;
 
 
 class ItemController extends Controller
@@ -26,7 +27,7 @@ class ItemController extends Controller
         $manualOnly = $request->input('manual');
 
 
-        $items = Item::with('prices.unit');
+        $items = Item::with('prices.unit', 'category');
 
         if ($manualOnly == "true") {
             $items->where(function ($query) use ($search) {
@@ -82,8 +83,9 @@ class ItemController extends Controller
 
     public function create()
     {
+        $categories = Category::get();
         $units = Unit::get();
-        return view('item.create', ['units' => $units]);
+        return view('item.create', ['units' => $units, 'categories' => $categories]);
     }
 
     public function createAjax(Request $request)
@@ -95,12 +97,14 @@ class ItemController extends Controller
             'items.*.price' => 'required',
             'items.*.minimal' => 'required',
             'items.*.unit' => 'required',
+            'category' => 'required',
             'image' => 'nullable',
         ];
 
         $messages = [
             'name.required' => 'Nama diperlukan.',
             'name.required' => 'Harga Modal diperlukan.',
+            'category.required' => 'Kategori diperlukan.',
             'items.*.price.required' => 'Harga pada barang diperlukan.',
             'items.*.minimal.required' => 'Jumlah minimal pada barang diperlukan.',
             'items.*.unit.required' => 'Satuan pada barang diperlukan.',
@@ -161,6 +165,7 @@ class ItemController extends Controller
             'photo' => $request->image,
             'manual' => $request->manual,
             'is_photo' => $request->is_photo,
+            'category_id' => $request->category,
         ]);
 
         foreach ($request->items as $itemData) {
@@ -179,9 +184,10 @@ class ItemController extends Controller
 
     public function edit($id)
     {
-        $items = Item::with('prices.unit')->findOrFail($id);
+        $items = Item::with('prices.unit', 'category')->findOrFail($id);
         $units = Unit::get();
-        return view('item.edit', ['items' => $items, 'units' => $units]);
+        $categories = Category::get();
+        return view('item.edit', ['items' => $items, 'units' => $units, 'categories' => $categories]);
     }
 
     public function update(Request $request, $id)
@@ -196,6 +202,7 @@ class ItemController extends Controller
             'items.*.minimal' => 'required',
             'items.*.unit' => 'required',
             'image' => 'nullable',
+            'category' => 'required',
         ];
 
         $messages = [
@@ -204,6 +211,7 @@ class ItemController extends Controller
             'items.*.price.required' => 'Harga pada barang diperlukan.',
             'items.*.minimal.required' => 'Jumlah minimal pada barang diperlukan.',
             'items.*.unit.required' => 'Satuan pada barang diperlukan.',
+            'category.required' => 'Kategori diperlukan.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -283,6 +291,7 @@ class ItemController extends Controller
             ),),
             'photo' => $request->image,
             'is_photo' => $request->is_photo,
+            'category_id' => $request->category,
         ]);
 
         $item->prices()->delete();

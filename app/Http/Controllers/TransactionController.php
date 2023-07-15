@@ -46,7 +46,7 @@ class TransactionController extends Controller
             $item = Item::find($value['itemId']);
 
             $transaction->carts()->create([
-                'item_name' => $item->name,
+                'item_name' => "[ " . $item->category->name . " ] " . $item->name,
                 'quantity' => $value['quantity'],
                 'capital' => $item->capital,
                 'price' => intval(str_replace(".", "", $value['price'])),
@@ -59,6 +59,5 @@ class TransactionController extends Controller
             'message' => 'Data berhasil disimpan',
         ]);
 
-        // return dd($request->all());
     }
 }

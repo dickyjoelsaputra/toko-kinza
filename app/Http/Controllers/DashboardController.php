@@ -11,11 +11,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $total_transaction = Transaction::sum('id');
+        $total_transaction = Transaction::count('id');
         $total_net_profit = Transaction::sum('net_profit');
         $total_gross_profit = Transaction::sum('total');
-        $total_item = Item::sum('id');
+        $total_item = Item::count('id');
 
+
+        $total_gross_profit = number_format($total_gross_profit, 0, ',', '.');
+        $total_net_profit = number_format($total_net_profit, 0, ',', '.');
         return view('dashboard.index', ['total_transaction' => $total_transaction, 'total_net_profit' => $total_net_profit, 'total_item' => $total_item, 'total_gross_profit' => $total_gross_profit]);
     }
 

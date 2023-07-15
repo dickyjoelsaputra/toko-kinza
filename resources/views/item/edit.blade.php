@@ -108,6 +108,15 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Kategori</label>
+                                <select class="form-control select2" name="category">
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }} {{ $items->category->id == $category->id ? 'selected' : '' }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <label>Harga Modal</label>
                                 <input id="capital" name="capital" type="text" class="form-control capital"
                                     value="{{ $items->capital }}">
@@ -417,6 +426,7 @@
                 var code = $('#code').val();
                 var name = $('#name').val();
                 var capital = $('#capital').val();
+                var category = $('select[name="category"]').val();
                 var dataPrice = $('.price');
                 var priceInputs = $('input[name="[]price"]');
                 var minimalInputs = $('input[name="[]minimal"]');
@@ -449,6 +459,7 @@
                     code: code,
                     name: name,
                     capital: capital,
+                    category: category,
                     items: data,
                     imageName: imageName,
                     image: imageBase64
