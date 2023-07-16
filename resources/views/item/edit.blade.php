@@ -111,7 +111,7 @@
                                 <label>Kategori</label>
                                 <select class="form-control select2" name="category">
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->id }} {{ $items->category->id == $category->id ? 'selected' : '' }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" {{ $items->category->id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
